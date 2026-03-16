@@ -180,8 +180,10 @@
   .scroll-hint {
     position: absolute;
     bottom: 2.5rem;
-    left: 50%;
-    transform: translateX(-50%);
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    width: fit-content;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -191,7 +193,11 @@
     letter-spacing: 0.25em;
     text-transform: uppercase;
     opacity: 0;
-    animation: fadeUp 1s 2.2s forwards;
+    animation: fadeIn 1s 2.2s forwards;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
   }
   .scroll-line {
     width: 1px; height: 50px;
@@ -634,7 +640,7 @@
       <span class="heart">♥</span>
       <span></span>
     </div>
-    <p class="hero-names">Your Name &amp; Partner's Name</p>
+    <p class="hero-names">Saad Sulmi &amp; Jasna Sidhiq</p>
     <p class="hero-counter" id="heroCounter"></p>
   </div>
 
@@ -660,7 +666,7 @@
     <div class="story-text reveal">
       <span class="section-label">Our story</span>
       <h2>Written in <em>sixty days</em></h2>
-      <p>From the very first message on December 15th, something quietly shifted — words exchanged across a screen that carried more warmth than most conversations do in years. Four days later, eyes met for the first time, and the heart already knew what the mind was still catching up to.</p>
+      <p>From the very first message on December 15th, something quietly shifted — words exchanged across a screen that carried more warmth than most conversations do in years. Four days later, eyes met for the first time and the heart already knew what the mind was still catching up to.</p>
       <p>By January 18th, a promise was made. And on February 14th — the most beloved day of love — our nikah was sealed under divine grace. Sixty extraordinary days that became a lifetime.</p>
       <span class="story-signature">— Dec 15 to forever ♥</span>
     </div>
@@ -683,22 +689,22 @@
     <div class="timeline-item">
       <span class="timeline-year">December 15</span>
       <h3>💬 The First Hello</h3>
-      <p>It started with a simple message — and somehow, the world quietly rearranged itself. Words typed into a screen, yet felt like the warmest conversation either of us had ever known. What began as a chat became the beginning of everything.</p>
+      <p>It started with a simple message and somehow, the world quietly rearranged itself. Words typed into a screen, yet felt like the warmest conversation either of us had ever known. What began as a chat became the beginning of everything.</p>
     </div>
     <div class="timeline-item">
       <span class="timeline-year">December 19</span>
       <h3>👁️ The First Glance</h3>
-      <p>Four days of words, and then — a face to match the feeling. The moment eyes met for the first time, every message suddenly made sense. Some things you just know without being told; this was one of them.</p>
+      <p>Four days of words and then - a face to match the feeling. The moment eyes met for the first time, every message suddenly made sense. Some things you just know without being told; this was one of them.</p>
     </div>
     <div class="timeline-item">
       <span class="timeline-year">January 18</span>
       <h3>💍 The Promise</h3>
-      <p>A ring, a moment, a forever sealed with a promise. Engagement — the beautiful in-between of falling in love and building a life. We said yes to each other, and to every ordinary extraordinary day that was yet to come.</p>
+      <p>A ring, a moment, a forever sealed with a promise. Engagement — the beautiful in-between of falling in love and building a life. We said yes to each other and to every ordinary extraordinary day that was yet to come.</p>
     </div>
     <div class="timeline-item">
       <span class="timeline-year">February 14 ♥</span>
       <h3>🕌 The Nikah</h3>
-      <p>On the most romantic day the calendar knows, we made it sacred. Our nikah — the covenant that bound two souls not just in love, but in faith, in trust, and in divine blessing. Valentine's Day was never going to be the same again.</p>
+      <p>On the most romantic day the calendar knows, we made it sacred. Our nikah — the covenant that bound two souls not just in love, but in faith, in trust and in divine blessing. Valentine's Day was never going to be the same again.</p>
     </div>
   </div>
 </section>
@@ -757,10 +763,10 @@
   <div class="letter-inner reveal">
     <span class="section-label">A letter</span>
     <h2>"To the one who made home feel like a person"</h2>
-    <p>There are no adequate words — and yet, here I am trying. Because you deserve every clumsy, earnest attempt at putting into language what you mean to me.</p>
-    <p>You are my favourite thing about being alive. The reason mornings feel gentler, evenings feel warmer, and the hardest days feel survivable. Distance or no distance, time zone or time zone — none of it changes what you are to me.</p>
-    <p>I chose you then. I choose you now. I'll choose you in every version of this life that's still ahead of us.</p>
-    <span class="letter-close">Yours, completely. ♥</span>
+    <p>There are no adequate words and yet, here I am trying. Because you deserve every clumsy, earnest attempt at putting into language what you mean to me.</p>
+    <p>You are my favourite thing about being alive. The reason mornings feel gentler, evenings feel warmer and the hardest days feel survivable. Distance or no distance, same time zone or different — none of it changes what you are to me.</p>
+    <p>I chose you then. I choose you now. I'll choose you in every version of this life that's still ahead of us. I love you more than anything.</p>
+    <span class="letter-close">Yours suluu, completely. ♥</span>
   </div>
 </section>
 
