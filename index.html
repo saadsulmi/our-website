@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Forever & Always</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@200;300;400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --cream: #f7f0e8;
+    --parchment: #ede3d5;
+    --gold: #c9a96e;
+    --gold-light: #e8d5a3;
+    --rose: #b5605a;
+    --rose-deep: #8b3a35;
+    --ink: #1a1108;
+    --ink-soft: #3d2e1e;
+    --smoke: rgba(26,17,8,0.06);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Jost', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* Custom cursor */
+  .cursor {
+    position: fixed;
+    width: 10px; height: 10px;
+    background: var(--gold);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: transform 0.1s, width 0.3s, height 0.3s, opacity 0.3s;
+    mix-blend-mode: multiply;
+  }
+  .cursor-ring {
+    position: fixed;
+    width: 36px; height: 36px;
+    border: 1px solid var(--gold);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9998;
+    transform: translate(-50%, -50%);
+    transition: transform 0.15s ease, width 0.3s, height 0.3s, opacity 0.3s;
+    opacity: 0.5;
+  }
+
+  /* ─── HERO ─── */
+  .hero {
+    position: relative;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: var(--ink);
+  }
+
+  .hero-bg {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 30% 50%, rgba(181,96,90,0.18) 0%, transparent 70%),
+      radial-gradient(ellipse 60% 80% at 75% 40%, rgba(201,169,110,0.12) 0%, transparent 60%),
+      radial-gradient(ellipse 100% 100% at 50% 100%, rgba(139,58,53,0.25) 0%, transparent 55%);
+    background-color: #100c07;
+  }
+
+  /* Animated petals */
+  .petal {
+    position: absolute;
+    width: 6px; height: 10px;
+    background: radial-gradient(ellipse, rgba(181,96,90,0.6), transparent);
+    border-radius: 50% 50% 50% 0 / 60% 60% 40% 40%;
+    animation: fall linear infinite;
+    pointer-events: none;
+  }
+
+  @keyframes fall {
+    0%   { transform: translateY(-20px) rotate(0deg); opacity: 0; }
+    10%  { opacity: 1; }
+    90%  { opacity: 0.6; }
+    100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+  }
+
+  /* Decorative lines */
+  .hero-ornament {
+    position: absolute;
+    inset: 0;
+    background-image:
+      repeating-linear-gradient(90deg, rgba(201,169,110,0.04) 0px, rgba(201,169,110,0.04) 1px, transparent 1px, transparent 80px),
+      repeating-linear-gradient(0deg, rgba(201,169,110,0.04) 0px, rgba(201,169,110,0.04) 1px, transparent 1px, transparent 80px);
+  }
+
+  .hero-content {
+    text-align: center;
+    position: relative;
+    z-index: 2;
+    opacity: 0;
+    animation: fadeUp 1.6s cubic-bezier(0.16,1,0.3,1) 0.4s forwards;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(40px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .hero-eyebrow {
+    font-family: 'Jost', sans-serif;
+    font-weight: 200;
+    font-size: 0.75rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 2rem;
+    opacity: 0;
+    animation: fadeUp 1.4s 0.8s forwards;
+  }
+
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(4rem, 12vw, 10rem);
+    font-weight: 300;
+    line-height: 0.9;
+    color: var(--cream);
+    letter-spacing: -0.02em;
+    opacity: 0;
+    animation: fadeUp 1.4s 1s forwards;
+  }
+
+  .hero-title em {
+    display: block;
+    font-style: italic;
+    color: var(--gold-light);
+    font-size: 0.6em;
+    letter-spacing: 0.05em;
+  }
+
+  .hero-divider {
+    margin: 2.5rem auto;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    justify-content: center;
+    opacity: 0;
+    animation: fadeUp 1.4s 1.2s forwards;
+  }
+  .hero-divider span { display: block; height: 1px; width: 80px; background: var(--gold); opacity: 0.4; }
+  .hero-divider .heart {
+    color: var(--rose);
+    font-size: 1.1rem;
+    animation: heartbeat 2s ease-in-out infinite;
+  }
+  @keyframes heartbeat {
+    0%, 100% { transform: scale(1); }
+    30% { transform: scale(1.2); }
+    50% { transform: scale(0.95); }
+    70% { transform: scale(1.15); }
+  }
+
+  .hero-names {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.2rem, 3vw, 1.8rem);
+    font-weight: 300;
+    font-style: italic;
+    color: rgba(247,240,232,0.7);
+    letter-spacing: 0.1em;
+    opacity: 0;
+    animation: fadeUp 1.4s 1.4s forwards;
+  }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 2.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    color: rgba(201,169,110,0.5);
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    opacity: 0;
+    animation: fadeUp 1s 2.2s forwards;
+  }
+  .scroll-line {
+    width: 1px; height: 50px;
+    background: linear-gradient(to bottom, rgba(201,169,110,0.5), transparent);
+    animation: scrollLine 2s ease-in-out infinite;
+  }
+  @keyframes scrollLine {
+    0%, 100% { transform: scaleY(1); transform-origin: top; }
+    50% { transform: scaleY(0.4); }
+  }
+
+  .hero-counter {
+    font-family: 'Jost', sans-serif;
+    font-weight: 200;
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(201,169,110,0.55);
+    margin-top: 1.2rem;
+    opacity: 0;
+    animation: fadeUp 1.4s 1.7s forwards;
+  }
+
+  /* ─── SHARED SECTION STYLES ─── */
+  section { position: relative; }
+
+  .section-label {
+    font-family: 'Jost', sans-serif;
+    font-weight: 200;
+    font-size: 0.68rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    display: block;
+    margin-bottom: 1.5rem;
+  }
+
+  /* ─── STORY SECTION ─── */
+  .story {
+    background: var(--cream);
+    padding: 10rem 2rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+    max-width: 1100px;
+    margin: 0 auto;
+    align-items: center;
+  }
+
+  @media(max-width: 768px) {
+    .story { grid-template-columns: 1fr; gap: 3rem; padding: 6rem 2rem; }
+  }
+
+  .story-visual {
+    position: relative;
+    aspect-ratio: 3/4;
+  }
+
+  .story-frame {
+    position: absolute;
+    inset: 0;
+    border: 1px solid rgba(201,169,110,0.25);
+    border-radius: 2px;
+    background: linear-gradient(135deg, var(--parchment) 0%, var(--cream) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .story-frame-inner {
+    width: 85%; height: 85%;
+    border: 1px solid rgba(201,169,110,0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 1rem;
+    color: rgba(201,169,110,0.35);
+  }
+
+  .story-frame-inner svg { width: 48px; height: 48px; }
+  .story-frame-inner p { font-family: 'Jost'; font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; }
+
+  .story-frame::after {
+    content: '';
+    position: absolute;
+    bottom: -16px; right: -16px;
+    width: 90%; height: 90%;
+    border: 1px solid rgba(201,169,110,0.15);
+    border-radius: 2px;
+    z-index: -1;
+  }
+
+  .story-text h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 300;
+    line-height: 1.1;
+    color: var(--ink);
+    margin-bottom: 2rem;
+  }
+  .story-text h2 em { font-style: italic; color: var(--rose-deep); }
+
+  .story-text p {
+    font-weight: 300;
+    font-size: 1rem;
+    line-height: 1.9;
+    color: var(--ink-soft);
+    margin-bottom: 1.5rem;
+  }
+
+  .story-signature {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 1.4rem;
+    color: var(--rose);
+    margin-top: 2rem;
+  }
+
+  /* ─── QUOTE BANNER ─── */
+  .quote-banner {
+    background: var(--ink);
+    padding: 8rem 2rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .quote-banner::before {
+    content: '\201C';
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 40rem;
+    color: rgba(201,169,110,0.04);
+    position: absolute;
+    top: -10rem;
+    left: 50%;
+    transform: translateX(-50%);
+    line-height: 1;
+    pointer-events: none;
+  }
+
+  .quote-banner blockquote {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.8rem, 4vw, 3.2rem);
+    font-weight: 300;
+    font-style: italic;
+    color: var(--cream);
+    line-height: 1.4;
+    max-width: 800px;
+    margin: 0 auto 2rem;
+    position: relative;
+  }
+
+  .quote-banner cite {
+    font-family: 'Jost', sans-serif;
+    font-weight: 200;
+    font-size: 0.75rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-style: normal;
+  }
+
+  /* ─── TIMELINE ─── */
+  .timeline-section {
+    padding: 10rem 2rem;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .timeline-header {
+    text-align: center;
+    margin-bottom: 6rem;
+  }
+  .timeline-header h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 300;
+    line-height: 1.1;
+  }
+
+  .timeline {
+    position: relative;
+    padding-left: 2rem;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 1px;
+    background: linear-gradient(to bottom, transparent, var(--gold) 10%, var(--gold) 90%, transparent);
+    opacity: 0.3;
+  }
+
+  .timeline-item {
+    position: relative;
+    padding: 0 0 4rem 3rem;
+    opacity: 0;
+    transform: translateX(-20px);
+    transition: opacity 0.8s, transform 0.8s;
+  }
+  .timeline-item.visible { opacity: 1; transform: translateX(0); }
+
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -4px; top: 6px;
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--gold);
+    box-shadow: 0 0 0 4px rgba(201,169,110,0.15);
+  }
+
+  .timeline-year {
+    font-family: 'Jost', sans-serif;
+    font-weight: 200;
+    font-size: 0.7rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.5rem;
+  }
+
+  .timeline-item h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.8rem;
+    font-weight: 400;
+    color: var(--ink);
+    margin-bottom: 0.5rem;
+  }
+
+  .timeline-item p {
+    font-weight: 300;
+    font-size: 0.95rem;
+    line-height: 1.8;
+    color: var(--ink-soft);
+  }
+
+  /* ─── GALLERY ─── */
+  .gallery-section {
+    padding: 8rem 2rem;
+    background: var(--parchment);
+    text-align: center;
+  }
+
+  .gallery-header {
+    margin-bottom: 4rem;
+  }
+  .gallery-header h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 300;
+  }
+
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: auto;
+    gap: 1rem;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  @media(max-width: 600px) { .gallery-grid { grid-template-columns: 1fr 1fr; } }
+
+  .gallery-cell {
+    aspect-ratio: 1;
+    background: linear-gradient(135deg, rgba(201,169,110,0.08), rgba(181,96,90,0.08));
+    border: 1px solid rgba(201,169,110,0.2);
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 0.5rem;
+    color: rgba(201,169,110,0.4);
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-family: 'Jost';
+    font-weight: 200;
+    transition: transform 0.4s, border-color 0.4s;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .gallery-cell:hover {
+    transform: scale(1.02);
+    border-color: rgba(201,169,110,0.5);
+  }
+
+  .gallery-cell:nth-child(1) { grid-column: span 2; aspect-ratio: 2/1; }
+  .gallery-cell:nth-child(5) { grid-column: span 2; aspect-ratio: 2/1; }
+
+  .gallery-cell svg { width: 28px; height: 28px; opacity: 0.5; }
+
+  .gallery-cell::after {
+    content: 'Add photo';
+    position: absolute;
+    bottom: 0.75rem;
+    font-family: 'Jost';
+    font-weight: 200;
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .gallery-cell:hover::after { opacity: 0.7; }
+
+  /* ─── LOVE LETTER ─── */
+  .letter-section {
+    padding: 10rem 2rem;
+    background: var(--ink);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .letter-bg {
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 70% 60% at 50% 50%, rgba(139,58,53,0.15) 0%, transparent 70%);
+  }
+
+  .letter-inner {
+    max-width: 680px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+    background: rgba(247,240,232,0.04);
+    border: 1px solid rgba(201,169,110,0.15);
+    padding: 5rem 4rem;
+    border-radius: 2px;
+  }
+
+  @media(max-width: 600px) { .letter-inner { padding: 3rem 2rem; } }
+
+  .letter-inner .section-label { color: var(--gold); }
+
+  .letter-inner h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 300;
+    font-style: italic;
+    color: var(--cream);
+    margin-bottom: 2.5rem;
+    line-height: 1.2;
+  }
+
+  .letter-inner p {
+    font-weight: 300;
+    font-size: 1rem;
+    line-height: 2;
+    color: rgba(247,240,232,0.65);
+    margin-bottom: 1.5rem;
+  }
+
+  .letter-close {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 1.3rem;
+    color: var(--gold-light);
+    margin-top: 2.5rem;
+    display: block;
+  }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: #060402;
+    padding: 5rem 2rem;
+    text-align: center;
+    border-top: 1px solid rgba(201,169,110,0.1);
+  }
+
+  .footer-monogram {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 4rem;
+    font-weight: 300;
+    font-style: italic;
+    color: var(--gold);
+    opacity: 0.4;
+    letter-spacing: 0.1em;
+    margin-bottom: 1rem;
+    display: block;
+  }
+
+  footer p {
+    font-family: 'Jost';
+    font-weight: 200;
+    font-size: 0.7rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: rgba(201,169,110,0.3);
+  }
+
+  /* ─── FLOATING HEARTS ─── */
+  .float-heart {
+    position: fixed;
+    pointer-events: none;
+    font-size: 1rem;
+    animation: floatHeart 1.5s ease-out forwards;
+    z-index: 9990;
+  }
+  @keyframes floatHeart {
+    0%   { opacity: 1; transform: translateY(0) scale(1); }
+    100% { opacity: 0; transform: translateY(-80px) scale(0.5); }
+  }
+
+  /* Scroll reveal */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.9s cubic-bezier(0.16,1,0.3,1), transform 0.9s cubic-bezier(0.16,1,0.3,1);
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+</style>
+</head>
+<body>
+
+<!-- Custom cursor -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- ─── HERO ─── -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-ornament"></div>
+  <div id="petals"></div>
+
+  <div class="hero-content">
+    <p class="hero-eyebrow">Nikah · 14 February</p>
+    <h1 class="hero-title">
+      Forever
+      <em>& Always</em>
+    </h1>
+    <div class="hero-divider">
+      <span></span>
+      <span class="heart">♥</span>
+      <span></span>
+    </div>
+    <p class="hero-names">Your Name &amp; Partner's Name</p>
+    <p class="hero-counter" id="heroCounter"></p>
+  </div>
+
+  <div class="scroll-hint">
+    <div class="scroll-line"></div>
+    <span>Scroll</span>
+  </div>
+</section>
+
+<!-- ─── STORY ─── -->
+<section>
+  <div class="story">
+    <div class="story-visual reveal">
+      <div class="story-frame">
+        <div class="story-frame-inner">
+          <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M24 42s-18-10.5-18-23a10 10 0 0120 0 10 10 0 0120 0c0 12.5-22 23-22 23z" stroke="currentColor" stroke-width="1" fill="none"/>
+          </svg>
+          <p>Your photo</p>
+        </div>
+      </div>
+    </div>
+    <div class="story-text reveal">
+      <span class="section-label">Our story</span>
+      <h2>Written in <em>sixty days</em></h2>
+      <p>From the very first message on December 15th, something quietly shifted — words exchanged across a screen that carried more warmth than most conversations do in years. Four days later, eyes met for the first time, and the heart already knew what the mind was still catching up to.</p>
+      <p>By January 18th, a promise was made. And on February 14th — the most beloved day of love — our nikah was sealed under divine grace. Sixty extraordinary days that became a lifetime.</p>
+      <span class="story-signature">— Dec 15 to forever ♥</span>
+    </div>
+  </div>
+</section>
+
+<!-- ─── QUOTE ─── -->
+<section class="quote-banner">
+  <blockquote>"I have waited for this opportunity for more than half a century, to repeat to you once again my vow of eternal fidelity and everlasting love."</blockquote>
+  <cite>Gabriel García Márquez</cite>
+</section>
+
+<!-- ─── TIMELINE ─── -->
+<section class="timeline-section">
+  <div class="timeline-header reveal">
+    <span class="section-label">Our journey</span>
+    <h2>The chapters of us</h2>
+  </div>
+  <div class="timeline">
+    <div class="timeline-item">
+      <span class="timeline-year">December 15</span>
+      <h3>💬 The First Hello</h3>
+      <p>It started with a simple message — and somehow, the world quietly rearranged itself. Words typed into a screen, yet felt like the warmest conversation either of us had ever known. What began as a chat became the beginning of everything.</p>
+    </div>
+    <div class="timeline-item">
+      <span class="timeline-year">December 19</span>
+      <h3>👁️ The First Glance</h3>
+      <p>Four days of words, and then — a face to match the feeling. The moment eyes met for the first time, every message suddenly made sense. Some things you just know without being told; this was one of them.</p>
+    </div>
+    <div class="timeline-item">
+      <span class="timeline-year">January 18</span>
+      <h3>💍 The Promise</h3>
+      <p>A ring, a moment, a forever sealed with a promise. Engagement — the beautiful in-between of falling in love and building a life. We said yes to each other, and to every ordinary extraordinary day that was yet to come.</p>
+    </div>
+    <div class="timeline-item">
+      <span class="timeline-year">February 14 ♥</span>
+      <h3>🕌 The Nikah</h3>
+      <p>On the most romantic day the calendar knows, we made it sacred. Our nikah — the covenant that bound two souls not just in love, but in faith, in trust, and in divine blessing. Valentine's Day was never going to be the same again.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ─── GALLERY ─── -->
+<section class="gallery-section">
+  <div class="gallery-header reveal">
+    <span class="section-label">Moments</span>
+    <h2>A lifetime of frames</h2>
+  </div>
+  <div class="gallery-grid">
+    <div class="gallery-cell">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+        <rect x="3" y="3" width="18" height="18" rx="1"/>
+        <circle cx="8.5" cy="8.5" r="1.5"/>
+        <path d="M21 15l-5-5L5 21"/>
+      </svg>
+    </div>
+    <div class="gallery-cell">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+      </svg>
+    </div>
+    <div class="gallery-cell">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+        <rect x="3" y="3" width="18" height="18" rx="1"/>
+        <circle cx="8.5" cy="8.5" r="1.5"/>
+        <path d="M21 15l-5-5L5 21"/>
+      </svg>
+    </div>
+    <div class="gallery-cell">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+        <polyline points="9 22 9 12 15 12 15 22"/>
+      </svg>
+    </div>
+    <div class="gallery-cell">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+        <rect x="3" y="3" width="18" height="18" rx="1"/>
+        <circle cx="8.5" cy="8.5" r="1.5"/>
+        <path d="M21 15l-5-5L5 21"/>
+      </svg>
+    </div>
+    <div class="gallery-cell">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+        <circle cx="12" cy="12" r="10"/>
+        <path d="M12 8v4l3 3"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- ─── LOVE LETTER ─── -->
+<section class="letter-section">
+  <div class="letter-bg"></div>
+  <div class="letter-inner reveal">
+    <span class="section-label">A letter</span>
+    <h2>"To the one who made home feel like a person"</h2>
+    <p>There are no adequate words — and yet, here I am trying. Because you deserve every clumsy, earnest attempt at putting into language what you mean to me.</p>
+    <p>You are my favourite thing about being alive. The reason mornings feel gentler, evenings feel warmer, and the hardest days feel survivable. Distance or no distance, time zone or time zone — none of it changes what you are to me.</p>
+    <p>I chose you then. I choose you now. I'll choose you in every version of this life that's still ahead of us.</p>
+    <span class="letter-close">Yours, completely. ♥</span>
+  </div>
+</section>
+
+<!-- ─── FOOTER ─── -->
+<footer>
+  <span class="footer-monogram">F &amp; A</span>
+  <p>Forever &amp; Always &nbsp;·&nbsp; Nikah · 14 February &nbsp;·&nbsp; Made with love ♥</p>
+</footer>
+
+<script>
+  // Days together counter (from first chat Dec 15)
+  const start = new Date('2024-12-15');
+  const nikah = new Date('2025-02-14');
+  const today = new Date();
+  const daysTogether = Math.floor((today - start) / 86400000);
+  const daysMarried  = Math.floor((today - nikah)  / 86400000);
+  const ctr = document.getElementById('heroCounter');
+  if (ctr) ctr.textContent = `${daysTogether} days together · ${daysMarried} days of nikah bliss`;
+
+  // Custom cursor
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+  document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+  (function animCursor() {
+    rx += (mx - rx) * 0.12;
+    ry += (my - ry) * 0.12;
+    cursor.style.left = mx + 'px';
+    cursor.style.top  = my + 'px';
+    ring.style.left   = rx + 'px';
+    ring.style.top    = ry + 'px';
+    requestAnimationFrame(animCursor);
+  })();
+
+  // Floating hearts on click
+  document.addEventListener('click', e => {
+    for (let i = 0; i < 5; i++) {
+      const h = document.createElement('div');
+      h.className = 'float-heart';
+      h.textContent = '♥';
+      h.style.left = (e.clientX - 8 + (Math.random()-0.5)*40) + 'px';
+      h.style.top  = (e.clientY - 8) + 'px';
+      h.style.color = `hsl(${Math.random()*20+340}, 60%, ${50+Math.random()*20}%)`;
+      h.style.animationDelay = (Math.random()*0.3) + 's';
+      document.body.appendChild(h);
+      setTimeout(() => h.remove(), 2000);
+    }
+  });
+
+  // Rose petals
+  const petalContainer = document.getElementById('petals');
+  function createPetal() {
+    const p = document.createElement('div');
+    p.className = 'petal';
+    p.style.left = Math.random()*100 + 'vw';
+    p.style.animationDuration = (6 + Math.random()*8) + 's';
+    p.style.animationDelay    = (Math.random()*8) + 's';
+    p.style.opacity           = 0.4 + Math.random()*0.4;
+    p.style.transform         = `scale(${0.5 + Math.random()}) rotate(${Math.random()*360}deg)`;
+    petalContainer.appendChild(p);
+    setTimeout(() => p.remove(), 18000);
+  }
+  for (let i = 0; i < 20; i++) createPetal();
+  setInterval(createPetal, 600);
+
+  // Scroll reveal
+  const revealEls = document.querySelectorAll('.reveal, .timeline-item');
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.12 });
+  revealEls.forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
